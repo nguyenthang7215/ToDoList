@@ -28,17 +28,33 @@ export async function findTodoById(id) {
         }
         return result.rows[0];
     } catch (error) {
-        throw new Error('Lỗi không tìm được todo bang id:', error.message);
+        throw new Error('Lỗi không tìm thấy được todo:', error.message);
     }
 }
 
-// Get all todo 
-export async function getAllTodo(userId) {
+// Find todo by user_id
+export async function findTodoByUserId(userId) {
     try {
         const queryText = `
-            select * from todos where user_id = $1
+            select * from todos 
+            where user_id = $1
         `;
         const result = await pool.query(queryText, [userId]);
+        return result.rows;
+    } catch (error) {
+        throw new Error('Lỗi không tìm thấy được todo:', error.message);
+    }
+}
+
+// Get all todo (with user information)
+export async function getAllTodo() {
+    try {
+        const queryText = `
+            select t.*, u.username, u.email
+            from todos t
+            join users u on u.id = t.user_id
+        `;
+        const result = await pool.query(queryText);
         return result.rows;
     } catch (error) {
         throw new Error('Lỗi không lấy được tất cả todo list:', error.message);
