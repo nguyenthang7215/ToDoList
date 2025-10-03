@@ -18,7 +18,7 @@ export async function createUser({ username, email, password }) {
         const result = await pool.query(queryText, [username, email, hashedPassword]);
         return result.rows[0];
     } catch (error) {
-        throw new Error('Lỗi tạo người dùng:', error.message);
+        throw new Error(`Lỗi tạo người dùng: ${error.message}`);
     }
     // finally {
     //     client.release();
@@ -74,7 +74,7 @@ export async function getAllUser() {
         const result = await pool.query(queryText);
         return result.rows;
     } catch (error) {
-        throw new Error('Lỗi lấy dữ liệu tất cả người dùng:', error.message);
+        throw new Error(`Lỗi lấy dữ liệu tất cả người dùng: ${error.message}`);
     }
 }
 
@@ -94,17 +94,17 @@ export async function updateUser(userId, { username, email }) {
         const result = await pool.query(queryText, [username, email, userId]);
         return result.rows[0];
     } catch (error) {
-        throw new Error('Lỗi cập nhật thông tin người dùng:', error.message);
+        throw new Error('Lỗi cập nhật thông tin người dùng: ' + error.message);
     }
 }
 
 // Delete user
 export async function deleteUser(userId) {
     try {
-        const queryText = 'delete from user where id = $1 returning *';
+        const queryText = 'delete from users where id = $1 returning *';
         const result = await pool.query(queryText, [userId]);
         return result.rows.length > 0;
     } catch (error) {
-        throw new Error('Lỗi xoá người dùng:', error.message);
+        throw new Error('Lỗi xoá người dùng: ' + error.message);
     }
 }

@@ -11,7 +11,7 @@ export async function createTodo({ title, description, status, due_date, user_id
         const result = await pool.query(queryText, [title, description, status, due_date, user_id]);
         return result.rows[0];
     } catch (error) {
-        throw new Error('Lỗi tạo todo list:', error.message);
+        throw new Error('Lỗi tạo todo list: ' + error.message);
     }
 }
 
@@ -28,7 +28,7 @@ export async function findTodoById(id) {
         }
         return result.rows[0];
     } catch (error) {
-        throw new Error('Lỗi không tìm thấy được todo:', error.message);
+        throw new Error('Lỗi không tìm thấy được todo:' + error.message);
     }
 }
 
@@ -42,7 +42,7 @@ export async function findTodoByUserId(userId) {
         const result = await pool.query(queryText, [userId]);
         return result.rows;
     } catch (error) {
-        throw new Error('Lỗi không tìm thấy được todo:', error.message);
+        throw new Error('Lỗi không tìm thấy được todo: ' + error.message);
     }
 }
 
@@ -57,7 +57,7 @@ export async function getAllTodo() {
         const result = await pool.query(queryText);
         return result.rows;
     } catch (error) {
-        throw new Error('Lỗi không lấy được tất cả todo list:', error.message);
+        throw new Error('Lỗi không lấy được tất cả todo list: ' + error.message);
     }
 }
 
@@ -77,7 +77,7 @@ export async function updateTodo(id, { title, description, status, due_date }) {
         const result = await pool.query(queryText, [title, description, status, due_date, id]);
         return result.rows[0];
     } catch (error) {
-        throw new Error('Lỗi không cập nhật được todo list:', error.message);
+        throw new Error('Lỗi không cập nhật được todo list:' + error.message);
     }
 }
 
@@ -99,7 +99,7 @@ export async function toggleStatus(id) {
         const result = await pool.query(queryText, [newStatus, id]);
         return result.rows[0];
     } catch (error) {
-        throw new Error('Lỗi thay đôi trạng thái:', error.message);
+        throw new Error('Lỗi thay đôi trạng thái:' + error.message);
     }
 }
 
@@ -112,6 +112,6 @@ export async function deleteTodo(id) {
         const result = await pool.query(queryText, [id]);
         return result.rows.length > 0;
     } catch (error) {
-        throw new Error('Lỗi không xoá được todo list:', error.message);
+        throw new Error('Lỗi không xoá được todo list:' + error.message);
     }
 }
