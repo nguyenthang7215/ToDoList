@@ -1,9 +1,3 @@
-// Build the Controller layer to handle request, response and call the service for result
-// Notice: Implement the Error Class handler for handle the fail api request.
-// Muc dich cua controller : Nhận request từ user 
-// -> Thao tác với DB + Gọi service để xử lý 
-// -> Trả lại response về thằng view
-//////////////////// ---------> Mục đích controller : gọi service để handler request 
 import * as userService from '../services/user.service';
 
 export async function createUser(req, res) {
