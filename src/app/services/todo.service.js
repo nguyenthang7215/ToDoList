@@ -16,9 +16,6 @@ export async function findTodoById(id) {
         where id = $1
     `;
     const result = await pool.query(queryText, [id]);
-    if (result.rows.length === 0) {
-        return null;
-    }
     return result.rows[0];
 }
 
@@ -43,10 +40,6 @@ export async function getAllTodo() {
 }
 
 export async function updateTodo(id, { title, description, status, due_date }) {
-    const currentTodo = await findTodoById(id);
-    if (!currentTodo) {
-        throw new Error('Id không hợp lệ');
-    }
     const queryText = `
         update todos
         set title = $1, description = $2, status = $3, due_date = $4
@@ -59,9 +52,6 @@ export async function updateTodo(id, { title, description, status, due_date }) {
 
 export async function toggleStatus(id) {
     const currentTodo = await findTodoById(id);
-    if (!currentTodo) {
-        throw new Error('Id không hợp lệ');
-    }
     const newStatus = currentTodo.status === 'pending' ? 'done' : 'pending';
 
     const queryText = `

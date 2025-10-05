@@ -10,7 +10,6 @@ export async function createUser({ username, email, password }) {
         values ($1, $2, $3)
         returning id, username, email
     `;
-
     const result = await pool.query(queryText, [username, email, hashedPassword]);
     return result.rows[0];
 };
@@ -22,9 +21,6 @@ export async function findUserById(id) {
         where id = $1
     `;
     const result = await pool.query(queryText, [id]);
-    if (result.rows.length === 0) {
-        return null;
-    }
     return result.rows[0];
 }
 
@@ -36,9 +32,6 @@ export async function findUserByEmail(email) {
         where username = $1
     `;
     const result = await pool.query(queryText, [email]);
-    if (result.rows.length === 0) {
-        return null;
-    }
     return result.rows[0];
 }
 
@@ -51,10 +44,6 @@ export async function getAllUser() {
 }
 
 export async function updateUser(id, { username, email }) {
-    const currentUser = await findUserById(id);
-    if (!currentUser) {
-        throw new Error('Id không hợp lệ');
-    }
     const queryText = `
         update users
         set username = $1, email = $2
@@ -68,6 +57,7 @@ export async function updateUser(id, { username, email }) {
 export async function resetPassword(id, password) {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
+
     const queryText = `
         update users 
         set password = $1 
