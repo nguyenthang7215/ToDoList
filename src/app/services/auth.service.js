@@ -26,7 +26,7 @@ export async function checkInvalidLogin({ email, password }) {
     return false;
 }
 
-export async function authToken(user) {
+export function authToken(user) {
     const payload = { id: user.id };
     const accessToken = jwt.sign(payload, process.env.SECRET_KEY, { expiresIn: process.env.LOGIN_EXPIRE_IN });
     const decode = jwt.decode(accessToken);
