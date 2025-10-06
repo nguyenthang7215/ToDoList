@@ -70,6 +70,5 @@ export async function deleteTodo(id) {
         where id = $1 
         returning * 
     `;
-    const result = await pool.query(queryText, [id]);
-    return result.rows.length > 0;
+    await pool.query(queryText, [id]);
 }

@@ -64,8 +64,7 @@ export async function resetPassword(id, password) {
         where id = $2
         returning *
     `;
-    const result = await pool.query(queryText, [hashedPassword, id]);
-    return result.rows.length > 0;
+    await pool.query(queryText, [hashedPassword, id]);
 }
 
 export async function deleteUser(id) {
@@ -74,6 +73,5 @@ export async function deleteUser(id) {
         where id = $1 
         returning *
     `;
-    const result = await pool.query(queryText, [id]);
-    return result.rows.length > 0;
+    await pool.query(queryText, [id]);
 }
