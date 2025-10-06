@@ -1,45 +1,54 @@
+import pool from '../../configs/postgres.js';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
-import { findUserByEmail, createUser } from './user.service.js';
 import dotenv from 'dotenv';
+import { createUser } from './user.service.js';
+import moment from 'moment';
+import NodeCache from 'node-cache';
 
 dotenv.config();
 
-export async function registerUser({ username, email, password }) {
-    const user = await findUserByEmail(email);
-    if (user) { // ton tai 
-        return false;
+// Khoi tao cache luu toke bi block (Se bi mat du lieu neu restart) - Tot hon dung redis
+export const tokenBlocklist = new NodeCache();
+
+// Xac thuc xem dang nhap co dung hay khong
+export async function checkInvalidLogin({ email, password }) {
+    const queryText = 'select * from users where email = $1';
+    const result = await pool.query(queryText, [email]);
+    const user = result.rows[0];
+
+    if (user) {
+        const verified = await bcrypt.compare(password, user.password);
+        if (verified) {
+            return user;
+        }
     }
-    const newUser = await createUser({ username, email, password });
-    return newUser;
+    return false;
 }
 
-export async function loginUser({ email, password }) {
-    const user = await findUserByEmail(email);
-    if (!user) { // khong ton tai 
-        return false;
-    }
-
-    const valid = await bcrypt.compare(password, user.password);
-    if (!valid) {
-        return false;
-    }
-
-    const payload = { id: user.id, email: user.email };
-    const token = jwt.sign(payload, process.env.SECRET_KEY, { expiresIn: process.env.LOGIN_EXPIRE_IN });
-    const decode = jwt.decode(token);
+export async function authToken(user) {
+    const payload = { id: user.id };
+    const accessToken = jwt.sign(payload, process.env.SECRET_KEY, { expiresIn: process.env.LOGIN_EXPIRE_IN });
+    const decode = jwt.decode(accessToken);
     const expireIn = decode.exp - decode.iat;
-
     return {
-        user: {
-            id: user.id,
-            username: user.username,
-            email: user.email
-        },
-        access_token: token,
+        access_token: accessToken,
         expire_in: expireIn,
-        auth_type: 'Bearer Token'
+        auth_type: 'Bearer token'
     }
 }
 
-// Can them lien quan den token (Chua lam)
+// Dang ky
+export async function register({ username, email, password }) {
+    const user = await createUser({ username, email, password });
+    return user;
+}
+
+// Dung cho viec blocktoken som hon nhu (logout, xoa quyen truy cap, ...)
+export async function blockToken(token) {
+    const decoded = jwt.decode(token);
+    const now = moment().unix();
+    const expireIn = decoded.exp - now;
+    tokenBlocklist.set(token, true, expireIn);
+}
+
