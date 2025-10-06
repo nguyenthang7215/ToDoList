@@ -12,7 +12,7 @@ dotenv.config();
 export const tokenBlocklist = new NodeCache();
 
 // Xac thuc xem dang nhap co dung hay khong
-export async function checkInvalidLogin({ email, password }) {
+export async function checkValidLogin({ email, password }) {
     const queryText = 'select * from users where email = $1';
     const result = await pool.query(queryText, [email]);
     const user = result.rows[0];
