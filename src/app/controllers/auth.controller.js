@@ -34,6 +34,3 @@ export async function resetPassword(req, res) {
     await authService.blockToken(token);
     res.json({ message: 'Đổi mật khẩu thành công!' });
 }
-
-
-
