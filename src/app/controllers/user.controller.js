@@ -35,4 +35,3 @@ export async function deleteUser(req, res) {
     await userService.deleteUser(req.params.id);
     res.json({ message: 'Đã xoá thành công!' });
 }
-
