@@ -20,9 +20,6 @@ export async function register(req, res) {
 
 export async function logout(req, res) {
     const authHeader = req.headers.authorization;
-    if (!authHeader) {
-        res.status(401).json({ message: 'Thiếu token!' });
-    }
     const token = authHeader.split(' ')[1];
     await authService.blockToken(token);
     res.json({ message: 'Đăng xuất thành công!' })

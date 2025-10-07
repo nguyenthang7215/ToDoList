@@ -16,7 +16,7 @@ async function todoSeeder(users) {
         status: 'done',
         due_date: '2025-09-29',
         user_id: users[0].id
-    })        
+    })
 
     todos.push(todo1);
     todos.push(todo2);
