@@ -29,7 +29,7 @@ export async function findUserByEmail(email) {
     const queryText = `
         select id, username, email, password 
         from users 
-        where username = $1
+        where email = $1
     `;
     const result = await pool.query(queryText, [email]);
     return result.rows[0];
