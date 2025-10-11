@@ -8,12 +8,12 @@ const app = express();
 const PORT = process.env.APP_PORT;
 
 app.use(express.json());
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({ extended: true }));
 
-route(app); 
+route(app);
 
 app.use(errorHandler);
 
-app.listen('/', () => {
+app.listen(PORT, () => {
     console.log(`Todo list chạy đường link: http://localhost:${PORT}`);
 });
