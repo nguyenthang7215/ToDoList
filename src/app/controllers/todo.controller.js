@@ -22,12 +22,12 @@ export async function readAllTodo(req, res) {
 
 export async function updateTodo(req, res) {
     const todo = await todoService.updateTodo(req.params.id, req.body);
-    res.status(201).json(todo);
+    res.status(200).json(todo);
 }
 
 export async function toggleStatus(req, res) {
     const todo = await todoService.toggleStatus(req.params.id);
-    res.satus(201).json(todo);
+    res.status(200).json(todo);
 }
 
 export async function deleteTodo(req, res) {
