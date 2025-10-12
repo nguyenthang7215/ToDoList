@@ -22,7 +22,7 @@ async function requireAuthentication(req, res, next) {
             return next(ApiError.unauthorized('Token đã bị vô hiệu hoá!'));
         }
 
-        const decoded = jwt.verify(token, process.env.SCECRET_KEY);
+        const decoded = jwt.verify(token, process.env.SECRET_KEY);
         const result = await pool.query('select * from users where id = $1', [decoded.id]);
         if (result.rows.length > 0) {
             next();
