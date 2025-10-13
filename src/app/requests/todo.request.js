@@ -13,7 +13,6 @@ export const createTodo = Joi.object({
     status: Joi.string()
         .valid('pending', 'done')
         .default('pending')
-        .required()
         .label('Trạng thái'),
     due_date: Joi.date()
         .iso() // chuan YYYY-MM-DD
@@ -52,14 +51,13 @@ export const updateTodo = Joi.object({
     description: Joi.string()
         .allow('')
         .optional()
-        .label('Mô tả'), 
+        .label('Mô tả'),
     status: Joi.string()
         .valid('pending', 'done')
         .default('pending')
-        .required()
         .label('Trạng thái'),
     due_date: Joi.date()
-        .iso() 
+        .iso()
         .min('now')
         .optional()
         .label('Ngày hết hạn'),

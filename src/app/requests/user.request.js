@@ -9,8 +9,8 @@ export const createUser = Joi.object({
         .label('Họ và tên'),
     email: Joi.string()
         .trim()
-        .max(255)
         .lowercase()
+        .max(255)
         .email()
         .required()
         .label('Email'),
@@ -32,8 +32,8 @@ export const findUserById = Joi.object({
 export const findUserByEmail = Joi.object({
     email: Joi.string()
         .trim()
-        .max(255)
         .lowercase()
+        .max(255)
         .email()
         .required()
         .label('Email')
@@ -48,8 +48,8 @@ export const updateUser = Joi.object({
         .label('Họ và tên'),
     email: Joi.string()
         .trim()
-        .max(255)
         .lowercase()
+        .max(255)
         .email()
         .required()
         .label('Email')
