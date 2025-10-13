@@ -18,7 +18,7 @@ userRouter.get(
 );
 
 userRouter.get(
-    '/:email',
+    '/:email/by-email',
     userMiddleware.checkValidEmail,
     userController.readUserByEmail
 );

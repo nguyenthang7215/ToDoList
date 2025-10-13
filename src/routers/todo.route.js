@@ -16,7 +16,7 @@ todoRouter.get(
 );
 
 todoRouter.get(
-    '/:userId',
+    '/:userId/by-userId',
     todoMiddleware.checkValidUserId,
     todoController.readTodoByUserId
 );
