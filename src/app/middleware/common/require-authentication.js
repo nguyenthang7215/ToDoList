@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
-import { tokenBlocklist } from '../services/auth.service.js';
-import pool from '../../configs/postgres.js';
-import ApiError from '../../utils/classes/api-eror.js';
+import { tokenBlocklist } from '../../services/auth.service.js';
+import pool from '../../../configs/postgres.js';
+import ApiError from '../../../utils/classes/api-eror.js';
 import dotenv from 'dotenv';
 
 dotenv.config();
