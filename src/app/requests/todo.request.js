@@ -26,22 +26,6 @@ export const createTodo = Joi.object({
         .label('Id người dùng')
 })
 
-export const findTodoById = Joi.object({
-    id: Joi.number()
-        .integer()
-        .positive()
-        .required()
-        .label('Id của todo')
-})
-
-export const findTodoByUserId = Joi.object({
-    user_id: Joi.number()
-        .integer()
-        .positive()
-        .required()
-        .label('Id người dùng')
-})
-
 export const updateTodo = Joi.object({
     title: Joi.string()
         .trim()

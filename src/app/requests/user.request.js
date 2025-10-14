@@ -21,24 +21,6 @@ export const createUser = Joi.object({
         .label('Mật khẩu')
 })
 
-export const findUserById = Joi.object({
-    id: Joi.number()
-        .integer()
-        .positive()
-        .required()
-        .label('Id người dùng')
-})
-
-export const findUserByEmail = Joi.object({
-    email: Joi.string()
-        .trim()
-        .lowercase()
-        .max(255)
-        .email()
-        .required()
-        .label('Email')
-})
-
 export const updateUser = Joi.object({
     username: Joi.string()
         .trim()
