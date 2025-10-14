@@ -1,8 +1,14 @@
 import pool from "../../configs/postgres.js";
 import ApiError from "../../utils/classes/api-eror.js";
+import validator from 'validator';
 
 export async function checkValidId(req, res, next) {
     const id = req.params.id;
+
+    if (!validator.isInt(id, { min: 1 })) {
+        return next(ApiError.badRequest('Id không hợp lệ'));
+    }
+
     const result = await pool.query('select * from todos where id = $1', [id]);
     if (result.rows.length > 0) {
         // req.todo = result.rows[0];
@@ -14,9 +20,13 @@ export async function checkValidId(req, res, next) {
 
 export async function checkValidUserId(req, res, next) {
     const userId = req.params.userId;
+
+    if (!validator.isInt(userId, { min: 1 })) {
+        return next(ApiError.badRequest('UserId không hợp lệ'));
+    }
+
     const result = await pool.query('select * from todos where user_id = $1', [userId]);
     if (result.rows.length > 0) {
-        // req.todo = result.rows;
         next();
         return;
     }

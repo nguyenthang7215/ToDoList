@@ -8,13 +8,17 @@ function validate(schema) {
 
     return async function (req, res, next) {
         try{
-            const validateData = await schema.validateAsync(req.body)
-            req.body = validateData;
+            const validatedValue = await schema.validateAsync(req.body, {
+                abortEarly: false,
+                stripUnknown: true // loai bo truong du lieu khong xac dinh
+            });
+            req.body = validatedValue;
             return next();
         }
         catch(error){
             if(error instanceof ValidationError){
-                return next(new ApiError.badRequest(error.details[0].message));
+                const errorMessage = error.details.map(details => details.message).join(', ');
+                return next(ApiError.badRequest(errorMessage));
             }
 
             return next(error);
