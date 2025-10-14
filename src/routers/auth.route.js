@@ -1,16 +1,20 @@
 import { Router } from 'express';
 import * as authController from '../app/controllers/auth.controller.js';
-import requireAuthentication from '../app/middleware/auth.middleware.js';
+import requireAuthentication from '../app/middleware/common/require-authentication.js';
+import validate from '../app/middleware/common/validate.js';
+import * as authRequest from '../app/requests/auth.request.js';
 
 const authRouter = Router();
 
 authRouter.post(
     '/signup',
+    validate(authRequest.register),
     authController.register
 );
 
 authRouter.post(
     '/login',
+    validate(authRequest.login),
     authController.login
 );
 

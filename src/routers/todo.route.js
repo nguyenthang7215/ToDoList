@@ -1,11 +1,16 @@
 import {Router} from 'express';
 import * as todoController from '../app/controllers/todo.controller.js';
 import * as todoMiddleware from '../app/middleware/todo.middleware.js';
+import requireAuthentication from '../app/middleware/common/require-authentication.js';
+import validate from '../app/middleware/common/validate.js';
+import * as todoRequest from '../app/requests/todo.request.js';
 
 const todoRouter = Router();
+todoRouter.use(requireAuthentication);
 
 todoRouter.post(
     '/', 
+    validate(todoRequest.createTodo),
     todoController.createTodo
 );
 
@@ -29,6 +34,7 @@ todoRouter.get(
 todoRouter.put(
     '/:id',
     todoMiddleware.checkValidId,
+    validate(todoRequest.updateTodo),
     todoController.updateTodo 
 );
 
